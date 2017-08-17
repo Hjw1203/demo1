@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		div {
+			position: relative;
+			left: 0;
+			right: 0;
+			width: 100px;
+			height: 100px;
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+    <div></div>
+    <button>点我</button>
+	<script>
+        var oDiv = document.getElementsByTagName('div')[0];
+        var oBtn = document.getElementsByTagName('button')[0];
+        function getStyle(obj,attr){
+	    	return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj)[attr];
+	    }
+		function move(obj,attr,target,time,callback){
+			 //获取初始值
+			var startValue = parseFloat(getStyle(obj,attr));
+             //获取当前时间
+             var nowTime = new Date();
+             obj.timer = setInterval(function(){
+             	var n = (new Date()-nowTime)/time;
+             	if(n>=1){
+             		console.log('时间到了,运动结束！');
+             		n=1;
+             		clearInterval(obj.timer);
+             		// if(callback){
+             		// 	callback();
+             		// }
+             		callback&&callback();
+             	}
+             	obj.style[attr] = startValue+n*(target-startValue)+"px";
+             },1000/60);
+		}
+		oBtn.onclick = function(){
+			move(oDiv,"left",800,5000);
+		}
+		
+	</script>
+</body>
+</html>
